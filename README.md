@@ -1,4 +1,4 @@
-## Investigating what types of recipes tend to have higher average ratings
+# Investigating what types of recipes tend to have higher average ratings
 
 Author: Lydia Chin
 
@@ -152,11 +152,21 @@ From this plot, I concluded that the distribution is skewed to the right meaning
 
 I created a scatterplot to visualize the relationship between a recipe's average rating and the cooking time.
 
-*plot
+<iframe
+  src="images/minutes_rating_scatter.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
 However, this plot wasn't very helpful as the datapoints are clustered so tightly. Given this, I decided to also create a binned scatter plot to get a general idea of the rating for each recipe with a similar cooking time
 
-*plot
+<iframe
+  src="images/mins_rating_bins.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
 This plot suggests that as the cooking time increases for recipes, the average rating decreases, especially for recipes that take 4-8 hours to cook. This could be explained by the fact that people might not want to spend long amounts of time preparing their meals, so a recipe that is fast to finish would be recieved and rated better than a recipe that takes longer. 
 
@@ -196,9 +206,19 @@ To further analyze the missingness of the `'avg_rating'`, I explored its depende
 
 To first get an idea of the distributions of recipe preperation time grouped by whether the recipe's rating is missing or not, I plotted the distributions in a box plot, one fully and another just looking at where the center is. 
 
-*plot
+<iframe
+  src="images/mins_missing_dist.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
-*plot
+<iframe
+  src="images/mins_missing_dist_small.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
 As shown in the plot, recipes with a missing data seem to have a similar center and quartiles, however the data without missing values seem to have a larger maximum and range of cooking times
 
@@ -206,11 +226,23 @@ Due to the skew of the data, I decided to use the test statistic Absolute Differ
 
 Using this test statistic, I ran a permutation test shuffling the missingness of the `'avg_rating'` column 5000 times to collect 5000 simulated differences in medians between the two distributions. 
 
-*plot
+<iframe
+  src="images/mins_perm_med.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
-This test had an observed statistic of ___ as shown with the dashed line on the graph. The resulting p-value was 0.0 which is below the significance level. However, the resulting statistics seemed to almost all be zero. To make sure outliers weren't affecting the outcome, I also performed a permutation test with log minutes to hopefully reduce the power of the extreme values and the test statistic Absolute Difference in Means.
+This test had an observed statistic of ___ as shown with the dashed line on the graph. The resulting p-value was 0.0 which is below the significance level. However, the resulting statistics seemed to almost all be zero. 
 
-*plot
+To make sure outliers weren't affecting the outcome, I also performed a permutation test with log minutes to hopefully reduce the power of the extreme values and the test statistic Absolute Difference in Means.
+
+<iframe
+  src="images/mins_perm_log.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
 This test had an observed statistic of ___ plotted on the graph and a p-value of ___. 
 Since both tests returned a p-value below the significance level, I reject the null hypothesis and conclude that there is enough evidence that missingness in `'avg_rating'` is associated with recipe preparation time.
@@ -228,13 +260,22 @@ Therefore, the missingness mechanism for `'avg_rating'` is likely Missing at Ran
 
 Again, before performing any tests, I plotted the distributions in a box plot to get a sense of possible differences.
 
-*plot
-
+<iframe
+  src="images/n_ing_dist.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 Looking at this plot, the distributions for ingredient amount grouped by rating missingness look very similar.
 
 Moving forward with the test, I used the test stastic Absolute Difference in Means as this column didn't have any extreme datapoints to be wary of
 
-*plot
+<iframe
+  src="images/n_ing_perm.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
 The observed statistic of ___ as shown with the dashed line. The resulting p-value was ___ which is greater than our significance level of 0.05. This means I fail to reject the null hypothesis and conclude that the missingness of a recipe's rating doesn't depend on the number of ingredients it uses; or there isn't enough evidence to state otherwise.
 
@@ -248,8 +289,12 @@ As stated previously, the question I'm exploring is does the average rating of a
 
 **Test Statistic:** Absolute difference in median average rating.
 
-*plot
-
+<iframe
+  src="images/hyp_test.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 explanation sigh
 
 ## Framing a Prediction Problem
