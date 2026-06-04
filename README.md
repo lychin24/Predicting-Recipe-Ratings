@@ -1,4 +1,4 @@
-# Investigating what types of recipes tend to have higher average ratings
+## Investigating what types of recipes tend to have higher average ratings
 
 Author: Lydia Chin
 
@@ -61,7 +61,7 @@ In order to perform accurate analyses on these datasets, I cleaned them in the f
 
 
 1. Checked the datatypes of all columns and changed them for selected columns
-    - | Column             | Description |
+    | Column             | Description |
     | :----------------- | :---------- |
     | `'name'`           | object      |
     | `'recipe_id'`      | int64       |
@@ -92,27 +92,29 @@ In order to perform accurate analyses on these datasets, I cleaned them in the f
 
 
 #### Result
-The resulting dataframe contains 234208 rows and 18 columns. Here are all of its features:
-| Column                  | Description    |
-| :---------------------- | :------------- |
-| `'name'`                | object         |
-| `'recipe_id'`           | int64          |
-| `'minutes'`             | int64          |
-| `'contributor_id'`      | int64          |
-| `'n_steps'`             | int64          |
-| `'steps'`               | object         |
-| `'description'`         | object         |
-| `'ingredients'`         | object         |
-| `'n_ingredients'`       | int64          |
-| `'calories'`            | float64        |
-| `'total fat'`           | float64        |
-|  `sugar'`               | float64        |
-| `'sodium'`              | float64        |
-| `'protein'`             | float64        |
-| `'saturated fat'`       | float64        |
-| `'carbohydrates'`       | float64        |
-| `'review'`              | object         |
-| `'avg_rating'`          | float64        |
+- The resulting dataframe contains 234208 rows and 18 columns. Here are all of its features:
+    | Column             | Description |
+    | :----------------- | :---------- |
+    | `'name'`           | object      |
+    | `'recipe_id'`      | object      |
+    | `'minutes'`        | int64       |
+    | `'contributor_id'` | object      |
+    | `'submitted_date'` | object      |
+    | `'n_steps'`        | int64       |
+    | `'steps'`          | object      |
+    | `'description'`    | object      |
+    | `'ingredients'`    | object      |
+    | `'n_ingredients'`  | int64       |
+    | `'calories'`       | float64     |
+    | `'total fat'`      | float64     |
+    | `'sugar'`          | float64     |
+    | `'sodium'`.        | float64     |
+    | `'protein'`        | float64     |
+    | `'saturated fat'`  | float64     |
+    | `'carbohydrates'`  | float64     |
+    | `'review'`         | float64     |
+    | `'avg_rating'`     | object      |
+
 
 And here are the first five unique rows of it, including the most relevant columns as there are too many to all display.
 
