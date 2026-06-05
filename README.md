@@ -207,14 +207,14 @@ To further analyze the missingness of the `'avg_rating'`, I explored its depende
 To first get an idea of the distributions of recipe preperation time grouped by whether the recipe's rating is missing or not, I plotted the distributions in a box plot, one fully and another just looking at where the center is. 
 
 <iframe
-  src="images/mins_missing_dist.html"
+  src="images/mins_missing_dist_small.html"
   width="800"
   height="600"
   frameborder="0"
 ></iframe>
 
 <iframe
-  src="images/mins_missing_dist_small.html"
+  src="images/mins_missing_dist.html"
   width="800"
   height="600"
   frameborder="0"
@@ -281,7 +281,7 @@ The observed statistic of ___ as shown with the dashed line. The resulting p-val
 
 
 ## Hypothesis Testing
-As stated previously, the question I'm exploring is does the average rating of a recipe depend on how long it takes to make? To answer this question, I performed a hypothesis test comparing the absolute difference in medians of average rating between recipes that take shorter than 35 minutes to make and recipes that took longer than 35 minutes. I chose to do difference in medians rather than means due to the skew of the data and picked a cutoff of 35 minutes because it was the median of the 'minutes' column. 
+As stated previously, the question I'm exploring is does the average rating of a recipe depend on how long it takes to make? To answer this question, I performed a permutation test comparing the absolute difference in medians of average rating between recipes that take shorter than 35 minutes to make and recipes that took longer than 35 minutes. I chose to do a permutation test to test whether the two distribution seemingly came from the same population. To perform the test, I binarized the minutes column into 0 for less than 35 minutse and 1 for greater and shufffled them  then calculated the difference in medians between the two groups for each permutation, generating a null distribution of the test statistic. I chose to do difference in medians rather than means due to the skew of the data and picked a cutoff of 35 minutes because it was the median of the 'minutes' column. 
 
 **Null Hypothesis:** Recipes requiring 35 minutes or less and recipes requiring more than 35 minutes come from the same rating distribution.
 
@@ -289,13 +289,21 @@ As stated previously, the question I'm exploring is does the average rating of a
 
 **Test Statistic:** Absolute difference in median average rating.
 
+**Significance Level:** 0.05
+
+
+
 <iframe
   src="images/hyp_test.html"
   width="800"
   height="600"
   frameborder="0"
 ></iframe>
-explanation sigh
+
+The observed statistic was 0.035. After shuffling the labels 5000 times and collecting 5000 simulated median distances. The resulting p-value was >0.01. This value is less than the significance level therefore I reject the null hypothesis. There is evidence that the length of time a recipe takes to make has an effect on its average rating. 
+
+
+
 
 ## Framing a Prediction Problem
 For the prediction task, I chose to predict whether a recipe will receive a rating above 4.5 stars. This is a binary classification problem, where recipes with ratings greater than 4.5 are classified as "highly rated" and all others are classified as "not highly rated."
