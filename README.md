@@ -386,4 +386,4 @@ For the fairness analysis, I split the recipes into two groups: a high number of
   frameborder="0"
 ></iframe>
 
-The observed statistic was 0.0005 and the resulting p-value was 0.343. This value is greater than the signifcance level therefore we fail to reject the null hypothesis. There is not enough evidence that the model is unfair between recipes with a high number of steps versus a low number of steps. 
+The observed statistic was 0.0005 and the resulting p-value was 0.343. This value is greater than the signifcance level therefore I fail to reject the null hypothesis. There is not enough evidence that the model is unfair between recipes with a high number of steps versus a low number of steps. 
