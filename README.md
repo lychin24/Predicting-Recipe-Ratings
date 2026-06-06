@@ -75,12 +75,12 @@ In order to perform accurate analyses on these datasets, I cleaned them in the f
     | `'description'`    | object      |
     | `'ingredients'`    | object      |
     | `'n_ingredients'`  | int64       |
-    | `'user_id'`        | float64     |
+    | `'user_id'`        | object      |
     | `'date'`           | object      |
-    | `'review'`         | float64     |
-    | `'avg_rating'`     | object      |
+    | `'review'`         | object      |
+    | `'avg_rating'`     | float64     |
 
-    - I changed `'recipe_id'`, `'contributor_id'`, and `'user_id'` to be strings as they are categorical variables despite their numerical appearance. I also changed 
+    - I changed `'recipe_id'`, `'contributor_id'`, and `'user_id'` to be strings as they are categorical variables despite their numerical appearance.
 
 1. Split values in the nutrition column to individual columns of floats.
 
@@ -99,7 +99,6 @@ In order to perform accurate analyses on these datasets, I cleaned them in the f
     | `'recipe_id'`      | object      |
     | `'minutes'`        | int64       |
     | `'contributor_id'` | object      |
-    | `'submitted_date'` | object      |
     | `'n_steps'`        | int64       |
     | `'steps'`          | object      |
     | `'description'`    | object      |
@@ -108,12 +107,12 @@ In order to perform accurate analyses on these datasets, I cleaned them in the f
     | `'calories'`       | float64     |
     | `'total fat'`      | float64     |
     | `'sugar'`          | float64     |
-    | `'sodium'`.        | float64     |
+    | `'sodium'`         | float64     |
     | `'protein'`        | float64     |
     | `'saturated fat'`  | float64     |
     | `'carbohydrates'`  | float64     |
-    | `'review'`         | float64     |
-    | `'avg_rating'`     | object      |
+    | `'review'`         | object      |
+    | `'avg_rating'`     | float64     |
 
 
 And here are the first five unique rows of it, including the most relevant columns as there are too many to all display.
