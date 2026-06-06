@@ -1,4 +1,4 @@
-## Investigating the effect of a recipe's cooking time on its rating
+## Investigating the Effect of a Recipe's Cooking Time on its Rating
 
 Author: Lydia Chin
 
@@ -6,13 +6,13 @@ Author: Lydia Chin
 This project investigates the question of whether recipes that take longer to prepare receive higher ratings from users by analyzing a large collection of recipes and their corresponding ratings. Conducted at UC San Diego, the analysis focuses on the relationship between cooking time and average recipe ratings to determine whether the time invested in a recipe is associated with how positively it is reviewed.
 
 ## Introduction
-Recipes vary widely in their preparation time, nutritional content, and overall popularity. Understanding the factors that contribute to a highly rated recipe can provide valuable insights for home cooks, recipe developers, and food websites. For this project, I am analyzing two datasets consisting of recipes and ratings posted since 2008 on [food.com](https://www.food.com/). This dataset was originally used for the recommender system research paper, [Generating Personalized Recipes from Historical User Preferences](https://cseweb.ucsd.edu/~jmcauley/pdfs/emnlp19c.pdf) by Majumder et al.
+Recipes vary widely in their preparation time, nutritional content, and overall popularity. Understanding the factors that contribute to a highly rated recipe can provide valuable insights for home cooks, recipe developers, and food websites. For this project, I am analyzing two datasets consisting of recipes and ratings posted since 2008 on [food.com](https://www.food.com/). This data was originally used for the recommender system research paper, [Generating Personalized Recipes from Historical User Preferences](https://cseweb.ucsd.edu/~jmcauley/pdfs/emnlp19c.pdf) by Majumder et al.
 
 Given this data, an overarching question I hope to answer is "What is the relationship between the cooking time and average rating of recipes?"
 
 This question is interesting because cooking time often influences how appealing a recipe is to users. While some people may prefer quick and convenient meals, others may associate longer preparation times with higher-quality dishes. By examining the relationship between cooking time and average recipe ratings, we can better understand whether the amount of time required to prepare a recipe affects how users perceive and rate it.
 
-The first dataset, `RAW_recipes`, contains 83782 rows, indicating 83782 unique recipes, with 10 columns recording the following information:
+The first dataset, `RAW_recipes`, contains 83,782 rows, indicating 83,782 unique recipes, with 10 columns recording the following information:
 
 | Column             | Description                                                                                                                                                                                       |
 | :----------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -29,7 +29,7 @@ The first dataset, `RAW_recipes`, contains 83782 rows, indicating 83782 unique r
 | `'ingredients'`    | Text for recipe ingredients                                                                                                                                                                       |
 | `'n_ingredients'`  | Number of ingredients in recipe                                                                                                                                                                         |
 
-The second dataset, `interactions`, contains 731927 rows and each row contains a review from the user on a specific recipe. The columns it includes are:
+The second dataset, `interactions`, contains 731,927 rows and each row contains a review from the user on a specific recipe. The columns it includes are:
 
 | Column        | Description         |
 | :------------ | :------------------ |
@@ -40,7 +40,7 @@ The second dataset, `interactions`, contains 731927 rows and each row contains a
 | `'review'`    | Review text         |
 
 
-To answer the given question, the most relevant columns are `'minutes'` from `RAW_recipes` and `'rating'` from `interactons` since they directly address the research quesiton. In addition to these two, `'n_steps'` and `'n_ingredients '` from `minutes` could potentially provide context about the recipe and it's complexity which could then be used to explore possible reasons for any observed relationships between cooking time and rating. 
+For answering the given question, the most relevant columns are `'minutes'` from `RAW_recipes` and `'rating'` from `interactons` since they directly address the research quesiton. In addition to these two, `'n_steps'` and `'n_ingredients '` from `minutes` could potentially provide context about the recipe and it's complexity which could then be used to explore possible reasons for any observed relationships between cooking time and rating. 
 
 
 
@@ -50,7 +50,7 @@ In order to perform accurate analyses on these datasets, I cleaned them in the f
 
 1. Left merge the recipes and interactions datasets on id and recipe_id.
 
-   - This allows us to use both recipe data and their review for analysis
+   - This allows me to use both recipe data and their review for analysis.
 
 1. Fill all ratings of 0 with np.nan.
 
@@ -58,10 +58,10 @@ In order to perform accurate analyses on these datasets, I cleaned them in the f
 
 1. Add column `'avg_rating'` containing average rating per recipe.
 
-    - Since a recipe can have numerous ratings from different users, I take an average of all the ratings to get a more comprehensive understanding of the rating of a given recipe. After performing this action, I then dropped the original `'rating'` column as its data was better represented in the `'avg_rating'` column
+    - Since a recipe can have numerous ratings from different users, I take an average of all the ratings to get a more comprehensive understanding of the rating of a given recipe. After performing this action, I then dropped the original `'rating'` column as its data was better represented in the `'avg_rating'` column.
 
 
-1. Checked the datatypes of all columns and changed them for selected columns
+1. Checked the datatypes of all columns and changed them for selected columns.
 
     | Column             | Description |
     | :----------------- | :---------- |
@@ -88,7 +88,7 @@ In order to perform accurate analyses on these datasets, I cleaned them in the f
 
     - Although the values in the nutrition column appear to be stored as lists, they are actually stored as objects (strings). Using the dataset documentation, I identified the meaning of each value within the brackets. I then applied a lambda function to extract each nutritional component into its own column and converted the resulting values to floats. This transformation allowed the nutritional information to be used in numerical calculations and data analysis.
     
-1. Removed rows with a recipe preparation time longer than 1 week
+1. Removed rows with a recipe preparation time longer than 1 week.
 
     - As recipe preparation time is my main focus in this analysis, I do not want a small number of extreme values to disproportionately skew the results. Recipes with preparation times longer than one week are highly unusual and are unlikely to accurately represent typical cooking behavior. By limiting the dataset to recipes that take less than one week, I can reduce the influence of outliers and obtain a clearer picture of the relationship between cooking time and recipe ratings.
 
@@ -130,7 +130,7 @@ And here are the first five unique rows of it, including the most relevant colum
 
 ### Univariate Analysis
 
-For further analysis of the data, I examined the distribution of the minutes column
+For further analysis of the data, I examined the distribution of the minutes column:
 
 <iframe
   src="images/minutes_dist.html"
@@ -139,7 +139,7 @@ For further analysis of the data, I examined the distribution of the minutes col
   frameborder="0"
 ></iframe>
 
-As you can see, because of the outliers, the distribution is difficult to see. To help, I also plotted the distribution scaled up.
+As you can see, because of the outliers, the distribution is difficult to see. To help, I also plotted the distribution scaled in.
 
 <iframe
   src="images/minutes_dist_scaled.html"
@@ -152,7 +152,7 @@ From this plot, I concluded that the distribution is skewed to the right meaning
 
 ### Bivariate Analysis
 
-I created a scatterplot to visualize the relationship between a recipe's average rating and the cooking time.
+I created a scatterplot to visualize the relationship between a recipe's average rating and the cooking time:
 
 <iframe
   src="images/minutes_rating_scatter.html"
@@ -174,13 +174,13 @@ This plot suggests that as the cooking time increases for recipes, the average r
 
 ### Aggregate Analysis
 
- For further exploration of the relationship between cooking time and other features of the data, I grouped the recipes by cooking time and calculated the average rating, number of steps, and number of ingredients within each group. The resulting table is below:
+For further exploration of the relationship between cooking time and other features of the data, I grouped the recipes by cooking time and calculated the average rating, number of steps, and number of ingredients within each group. The resulting table is below:
 
 | time_bin   |   avg_rating |   avg_steps |   avg_ingredients |
 |:-----------|-------------:|------------:|------------------:|
-| 0-15       |      4.71486 |     5.52554 |           6.47991 |
-| 15-30      |      4.67837 |     9.24833 |           8.75278 |
-| 30-60      |      4.66619 |    11.5552  |          10.003   |
+| 0-15 mins  |      4.71486 |     5.52554 |           6.47991 |
+| 15-30 mins |      4.67837 |     9.24833 |           8.75278 |
+| 30-60 mins |      4.66619 |    11.5552  |          10.003   |
 | 1-2 hr     |      4.67641 |    13.0207  |          10.8929  |
 | 2-4 hr     |      4.66316 |    13.6719  |          10.2993  |
 | 4-8 hr     |      4.56732 |    11.2141  |           9.61101 |
@@ -196,7 +196,7 @@ I believe that the data in the `'review'` coulumn is likely to be Not Missing at
 
 ### Missingness Dependency
 
-To further analyze the missingness of the `'avg_rating'`, I explored its dependency. To do so, I investigated whether the missingness of `'rating'` depends on how long a recipe takes to make or how many ingredients it uses. This mean performing a permutation test to ask whether the samples grouped by missingness came from the same underlying distribution
+To further analyze the missingness of the `'avg_rating'`, I explored its dependency. To do so, I investigated whether the missingness of `'rating'` depends on how long a recipe takes to make or how many ingredients it uses. This mean performing a permutation test to ask whether the samples grouped by missingness came from the same underlying distribution.
 
  > Ratings Missingness vs. Minutes
 
@@ -222,7 +222,7 @@ To first get an idea of the distributions of recipe preperation time grouped by 
   frameborder="0"
 ></iframe>
 
-As shown in the plot, recipes with a missing data seem to have a similar center and quartiles, however the data without missing values seem to have a larger maximum and range of cooking times
+As shown in the plot, recipes with a missing data seem to have a similar center and quartiles, however the data without missing values seem to have a larger maximum and range of cooking times.
 
 Due to the skew of the data, I decided to use the test statistic Absolute Difference in Medians for the permutation test. As the median is not as sensitive to outliers as the mean is, using the median will allow me to get a more accurate result from the test. 
 
@@ -248,7 +248,7 @@ To make sure outliers weren't affecting the outcome, I also performed a permutat
 
 This test had an observed statistic of 0.2978 plotted on the graph and a p-value <0.01. Since both tests returned a p-value below the significance level, I reject the null hypothesis and conclude that there is enough evidence that missingness in `'avg_rating'` is associated with recipe preparation time. In other words, there is evidence that recipes with missing ratings tend to have different preparation times than recipes with observed ratings.
 
-Therefore, the missingness mechanism for `'avg_rating'` is likely Missing at Random (MAR) dependent on `'minutes'`
+Therefore, the missingness mechanism for `'avg_rating'` is likely Missing at Random (MAR) dependent on `'minutes'`.
 
 > Ratings Missingness vs. N_Ingredients
 
@@ -277,7 +277,7 @@ Moving forward with the test, I used the test stastic Absolute Difference in Mea
   frameborder="0"
 ></iframe>
 
-The observed statistic of 0.418 as shown with the dashed line. The resulting p-value was 0.924 which is greater than our significance level of 0.05. This means I fail to reject the null hypothesis and conclude that the missingness of a recipe's rating doesn't depend on the number of ingredients it uses; or there isn't enough evidence to state otherwise.
+The observed statistic of 0.418 as shown with the dashed line. The resulting p-value was 0.924 which is greater than our significance level of 0.05. This means I fail to reject the null hypothesis and conclude that the missingness of a recipe's rating doesn't depend on the number of ingredients it uses, or there isn't enough evidence to state otherwise.
 
 
 ## Hypothesis Testing
@@ -307,13 +307,12 @@ For the prediction task, I chose to predict whether a recipe will receive a rati
 
 I selected 4.5 as the threshold because it represents the upper tier of the 1–5 rating scale. Additionally, recipe ratings in this dataset are heavily concentrated near the high end of the scale, making the distinction between highly rated recipes and all other recipes more meaningful than predicting exact rating values.
 
-At the time of prediction, only information available when a recipe is posted will be used as predictors. Examples include preparation time, nutritional information, number of ingredients, and number of steps. User ratings and other information that would only become available after publication are excluded to avoid data leakage.
+For the model, I only used features with information that was availble at the time of prediciton. Examples include preparation time, nutritional information, number of ingredients, and number of steps.
 
-The primary evaluation metric is the F1-score. Since the classes are imbalanced and most recipes receive relatively high ratings, accuracy alone would be misleading. For example, a model that predicts every recipe as highly rated could achieve high accuracy while failing to identify meaningful differences between recipes. The F1-score balances precision and recall, making it a more appropriate metric for evaluating performance on this classification task.
+For evaluation, I used the F1-score. Since the classes aren't balanced and the majority of recipes recieved a relatively high score, using accuracy would be misleading. For example, a model that predicts every recipe as highly rated could achieve high accuracy while failing to identify meaningful differences between recipes. Using the F1-score balances the models precision and recall making it a better evaultion metric for the model. 
 
 ## Baseline Model
 For a baseline model, I trained a decision tree classifier using only three readily available recipe characteristics: cooking time (`minutes`), number of steps (`n_steps`), and number of ingredients (`n_ingredients`) -- all quanititave columns.I  also used the baseline hyperparameters max_depth = 3 and random_state = 42. I evaluated the model using the F1-score because the classes are imbalanced, with substantially more highly rated recipes than lower-rated recipes.
-
 
 In order to build the model, I binarized 'avg_ratings' to create the column 'high rating' that contains 0 if the average rating of the recipe was below 4.5 and 1 if above.
 
@@ -326,9 +325,9 @@ In order to build the model, I binarized 'avg_ratings' to create the column 'hig
 | Macro Avg | 0.37 | 0.50 | 0.43 | 46289 |
 | Weighted Avg | 0.55 | 0.74 | 0.63 | 46289 |
 
-The baseline model achieved an F1-score of 0.85 and an accuracy of 74%. However, a closer look at the classification report reveals that the model performed poorly on the lower-rated class. It achieved a recall of 0.00 and an F1-score of 0.00 for recipes with ratings below the threshold, while achieving a recall of 1.00 and an F1-score of 0.85 for highly rated recipes. This indicates that the model predicted nearly every recipe as highly rated, allowing it to achieve reasonable overall accuracy because the majority of recipes belong to that class.
+The baseline model achieved an F1-score of 0.85 and an accuracy of 74%. However, the classification report shows that the model performed poorly on the lower-rated class. It achieved a recall of 0.00 and an F1-score of 0.00 for recipes with ratings below the threshold, while achieving a recall of 1.00 and an F1-score of 0.85 for highly rated recipes. This indicates that the model predicted nearly every recipe as highly rated, allowing it to achieve reasonable overall accuracy because the majority of recipes belong to that class.
 
-Although the baseline model performs well on the majority class, it fails to effectively distinguish between highly rated and lower-rated recipes. This suggests that the three baseline features alone do not provide enough information for the model to identify lower-rated recipes. To improve performance, I will include more features and some transformation to better capture characteristics that may influence recipe ratings.
+Although the baseline model performs well on the majority class, it fails to effectively distinguish between highly rated and lower-rated recipes. This suggests that the three baseline features don't provide enough information for the model to identify lower-rated recipes.
 
 
 ## Final Model
@@ -337,7 +336,7 @@ To improve the model's metrics, I added multiple new features including two that
 
 `minutes`
 
-The raw cooking time is extremly skewed to the right. Applying a log transformation allows those outliers to not have such an effect on the models predictions. In recipes, a difference in cooking time between 10 minutes and 1 hour is much more meaningful than a difference in 200 hours and 250 hours. This tranfromation allows 
+The raw cooking time is extremly skewed to the right. Applying a log transformation allows those outliers to not have such an effect on the models predictions. In recipes, a difference in cooking time between 10 minutes and 1 hour is much more meaningful than a difference in 200 hours and 250 hours. This tranfromation allows the model to make predictions that are based on data that is an accurate representation. 
 
 Nutritional features: `calories`, `total fat`, `sugar`, `sodium`, `protein`, `saturated fat`, `carbohydrates`
 
