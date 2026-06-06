@@ -61,6 +61,7 @@ In order to perform accurate analyses on these datasets, I cleaned them in the f
 
 
 1. Checked the datatypes of all columns and changed them for selected columns
+
     | Column             | Description |
     | :----------------- | :---------- |
     | `'name'`           | object      |
@@ -93,6 +94,7 @@ In order to perform accurate analyses on these datasets, I cleaned them in the f
 
 #### Result
 - The resulting dataframe contains 234208 rows and 18 columns. Here are all of its features:
+
     | Column             | Description |
     | :----------------- | :---------- |
     | `'name'`           | object      |
