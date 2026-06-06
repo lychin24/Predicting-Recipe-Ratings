@@ -334,15 +334,19 @@ Although the baseline model performs well on the majority class, it fails to eff
 To improve the model's metrics, I added multiple new features including two that were combinations and transformed the `minutes` column. The final list of features were ['minutes' (log), 'n_steps', 'n_ingredients', 'calories', 'total fat', 'sugar', 'sodium', 'protein', 'saturated fat', 'carbohydrates', 'ingredients_per_step', 'calories_per_ingredient']
 
 `minutes`
+
 The raw cooking time is extremly skewed to the right. Applying a log transformation allows those outliers to not have such an effect on the models predictions. In recipes, a difference in cooking time between 10 minutes and 1 hour is much more meaningful than a difference in 200 hours and 250 hours. This tranfromation allows 
 
 Nutritional features: `calories`, `total fat`, `sugar`, `sodium`, `protein`, `saturated fat`, `carbohydrates`
+
 Nutritional content reflects the healthiness and indulgence of a recipe and can dictate a home chef's response to it. For example, higher-calorie, higher-fat recipes tend to be comfort foods or "cheat" dishes and may recieve higher ratings than "health" foods because of their emotional effect along with their taste. Because of this, nutritional profile is a meaningful signal about what kind of recipe is being rated, and therefore how it is likely to be received.
 
 `ingredients_per_step` (n_ingredients / n_steps)
+
 This captures how "dense" a recipe is. A recipe with 15 ingredients across 5 steps is likely very quick and easy to make, while 15 ingredients across 20 careful steps is a much more involved cook. This may affect a recipes ratings as simpler, lower-effort recipes tend to get rated more generously because more people can pull them off without something going wrong. Including this feature allows the model to account for this. 
 
 `calories_per_ingredient` (calories / n_ingredients)
+
 This captures how calorie-dense each ingredient is on average, which serves as a proxy for recipe indulgence. A high value suggests the recipe relies heavily on rich ingredients like butter, cream, or chocolate, which are strongly associated with desserts and comfort food — categories that tend to perform well in ratings on this platform.
 
 I continuted with my Decision Tree Classifier model manually tuned the  hyperparameters. The best combination of hyperparameters I found were max_depth = 50, criterion = entropy, and class_weight = balanced. I chose these hyperparameters for the following reasons: max_depth to find the best depth of the tree while avoiding overfitting, criteron to determine the best way to measure the quality of a split, and class_weight to determine how to balance the weights of the classes.
