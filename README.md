@@ -233,7 +233,7 @@ Using this test statistic, I ran a permutation test shuffling the missingness of
   frameborder="0"
 ></iframe>
 
-This test had an observed statistic of ___ as shown with the dashed line on the graph. The resulting p-value was 0.0 which is below the significance level. However, the resulting statistics seemed to almost all be zero. 
+This test had an observed statistic of 10 as shown with the dashed line on the graph. The resulting p-value was <0.01 which is below the significance level. However, the resulting statistics seemed to almost all be zero. 
 
 To make sure outliers weren't affecting the outcome, I also performed a permutation test with log minutes to hopefully reduce the power of the extreme values and the test statistic Absolute Difference in Means.
 
@@ -244,9 +244,7 @@ To make sure outliers weren't affecting the outcome, I also performed a permutat
   frameborder="0"
 ></iframe>
 
-This test had an observed statistic of ___ plotted on the graph and a p-value of ___. 
-Since both tests returned a p-value below the significance level, I reject the null hypothesis and conclude that there is enough evidence that missingness in `'avg_rating'` is associated with recipe preparation time.
-In other words, there is evidence that recipes with missing ratings tend to have different preparation times than recipes with observed ratings.
+This test had an observed statistic of 0.2978 plotted on the graph and a p-value <0.01. Since both tests returned a p-value below the significance level, I reject the null hypothesis and conclude that there is enough evidence that missingness in `'avg_rating'` is associated with recipe preparation time. In other words, there is evidence that recipes with missing ratings tend to have different preparation times than recipes with observed ratings.
 
 Therefore, the missingness mechanism for `'avg_rating'` is likely Missing at Random (MAR) dependent on `'minutes'`
 
@@ -268,7 +266,7 @@ Again, before performing any tests, I plotted the distributions in a box plot to
 ></iframe>
 Looking at this plot, the distributions for ingredient amount grouped by rating missingness look very similar.
 
-Moving forward with the test, I used the test stastic Absolute Difference in Means as this column didn't have any extreme datapoints to be wary of
+Moving forward with the test, I used the test stastic Absolute Difference in Means as this column didn't have any extreme datapoints to be wary of.
 
 <iframe
   src="images/n_ing_perm.html"
@@ -277,11 +275,11 @@ Moving forward with the test, I used the test stastic Absolute Difference in Mea
   frameborder="0"
 ></iframe>
 
-The observed statistic of ___ as shown with the dashed line. The resulting p-value was ___ which is greater than our significance level of 0.05. This means I fail to reject the null hypothesis and conclude that the missingness of a recipe's rating doesn't depend on the number of ingredients it uses; or there isn't enough evidence to state otherwise.
+The observed statistic of 0.418 as shown with the dashed line. The resulting p-value was 0.924 which is greater than our significance level of 0.05. This means I fail to reject the null hypothesis and conclude that the missingness of a recipe's rating doesn't depend on the number of ingredients it uses; or there isn't enough evidence to state otherwise.
 
 
 ## Hypothesis Testing
-As stated previously, the question I'm exploring is does the average rating of a recipe depend on how long it takes to make? To answer this question, I performed a permutation test comparing the absolute difference in medians of average rating between recipes that take shorter than 35 minutes to make and recipes that took longer than 35 minutes. I chose to do a permutation test to test whether the two distribution seemingly came from the same population. To perform the test, I binarized the minutes column into 0 for less than 35 minutse and 1 for greater and shufffled them  then calculated the difference in medians between the two groups for each permutation, generating a null distribution of the test statistic. I chose to do difference in medians rather than means due to the skew of the data and picked a cutoff of 35 minutes because it was the median of the 'minutes' column. 
+As stated previously, the question I'm exploring is does the average rating of a recipe depend on how long it takes to make? To answer this question, I performed a permutation test comparing the absolute difference in medians of average rating between recipes that take shorter than 35 minutes to make and recipes that took longer than 35 minutes. I chose to do a permutation test to test whether the two distribution seemingly came from the same population. To perform the test, I binarized the minutes column into 0 for less than 35 minutse and 1 for greater and shufffled them  then calculated the difference in medians between the two groups for each permutation, generating a null distribution of the test statistic. I chose to do difference in medians rather than means due to the skew of the data and picked a cutoff of 35 minutes because it was the median of the 'minutes' column. I also chose the significance level of 0.05 because it is the standard level used for statistical tests and it made sense for this test as well.
 
 **Null Hypothesis:** Recipes requiring 35 minutes or less and recipes requiring more than 35 minutes come from the same rating distribution.
 
@@ -292,7 +290,6 @@ As stated previously, the question I'm exploring is does the average rating of a
 **Significance Level:** 0.05
 
 
-
 <iframe
   src="images/hyp_test.html"
   width="800"
@@ -300,9 +297,7 @@ As stated previously, the question I'm exploring is does the average rating of a
   frameborder="0"
 ></iframe>
 
-The observed statistic was 0.035. After shuffling the labels 5000 times and collecting 5000 simulated median distances. The resulting p-value was >0.01. This value is less than the significance level therefore I reject the null hypothesis. There is evidence that the length of time a recipe takes to make has an effect on its average rating. 
-
-
+The observed statistic was 0.0179. After shuffling the labels 1000 times and collecting 1000 simulated median distances. The resulting p-value was >0.01. This value is less than the significance level therefore I reject the null hypothesis. There is evidence that the length of time a recipe takes to make has an effect on its average rating. 
 
 
 ## Framing a Prediction Problem
@@ -315,29 +310,74 @@ At the time of prediction, only information available when a recipe is posted wi
 The primary evaluation metric is the F1-score. Since the classes are imbalanced and most recipes receive relatively high ratings, accuracy alone would be misleading. For example, a model that predicts every recipe as highly rated could achieve high accuracy while failing to identify meaningful differences between recipes. The F1-score balances precision and recall, making it a more appropriate metric for evaluating performance on this classification task.
 
 ## Baseline Model
-The baseline model I chose is a Random Forest classifier that predicts whether a recipe will receive a rating above 4.5 stars. The model uses three quantitative features available at the time a recipe is posted: preparation time (`minutes`), number of ingredients (`n_ingredients`), and number of recipe steps (`n_steps`). 
+For a baseline model, I trained a decision tree classifier using only three readily available recipe characteristics: cooking time (`minutes`), number of steps (`n_steps`), and number of ingredients (`n_ingredients`) -- all quanititave columns.I  also used the baseline hyperparameters max_depth = 3 and random_state = 42. I evaluated the model using the F1-score because the classes are imbalanced, with substantially more highly rated recipes than lower-rated recipes.
 
-To do so, I binarized 'avg_ratings' to create the column 'high rating' that contains 0 if the average rating of the recipe was below 4.5 and 1 if above.
 
-The resulting f1 and classification scores were 0.85 and 0.74 respectively. Additionally, the classification report returned the following:
+In order to build the model, I binarized 'avg_ratings' to create the column 'high rating' that contains 0 if the average rating of the recipe was below 4.5 and 1 if above.
+
 
 | Class | Precision | Recall | F1-Score | Support |
 |---------|---------:|---------:|---------:|---------:|
-| 0 | 0.97 | 0.75 | 0.85 | 12035 |
-| 1 | 0.92 | 0.99 | 0.95 | 34254 |
-| Accuracy |  |  | 0.93 | 46289 |
-| Macro Avg | 0.95 | 0.87 | 0.90 | 46289 |
-| Weighted Avg | 0.93 | 0.93 | 0.93 | 46289 |
+| 0 | 0.00 | 0.00 | 0.00 | 12035 |
+| 1 | 0.74 | 1.00 | 0.85 | 34254 |
+| Accuracy |  |  | 0.74 | 46289 |
+| Macro Avg | 0.37 | 0.50 | 0.43 | 46289 |
+| Weighted Avg | 0.55 | 0.74 | 0.63 | 46289 |
 
-This baseline model performed relatively well, achieving an accuracy of 93% and a weighted f1-score of 0.93. This means the model was able to accurately identify both highly rated and lower-reated recipes, suggesting that the initial features already contain substantial predictive information about recipe ratings.
+The baseline model achieved an F1-score of 0.85 and an accuracy of 74%. However, a closer look at the classification report reveals that the model performed poorly on the lower-rated class. It achieved a recall of 0.00 and an F1-score of 0.00 for recipes with ratings below the threshold, while achieving a recall of 1.00 and an F1-score of 0.85 for highly rated recipes. This indicates that the model predicted nearly every recipe as highly rated, allowing it to achieve reasonable overall accuracy because the majority of recipes belong to that class.
 
-Despite this strong performance, there is still room for improvement. To improve the model, I plan to incorporate additional features like nutritional information. I will also tune the model's hyperparameters to reduce overfitting and improve its ability to generalize to unseen data. These changes will hopefully help the model further improve its performance.
+Although the baseline model performs well on the majority class, it fails to effectively distinguish between highly rated and lower-rated recipes. This suggests that the three baseline features alone do not provide enough information for the model to identify lower-rated recipes. To improve performance, I will include more features and some transformation to better capture characteristics that may influence recipe ratings.
 
 
 ## Final Model
 
-To improve the model's metrics, I used GridSearchCV to finetune the hyperparameters of the model. This output the parameters {'criterion': 'entropy', 'max_depth': None, 'min_samples_split': 2}
+To improve the model's metrics, I added multiple new features including two that were combinations and transformed the `minutes` column. The final list of features were ['minutes' (log), 'n_steps', 'n_ingredients', 'calories', 'total fat', 'sugar', 'sodium', 'protein', 'saturated fat', 'carbohydrates', 'ingredients_per_step', 'calories_per_ingredient']
 
-Using these, the model returned an f1 score of 0.94 and a classification score of 0.999. Additionally, 
+`minutes`
+The raw cooking time is extremly skewed to the right. Applying a log transformation allows those outliers to not have such an effect on the models predictions. In recipes, a difference in cooking time between 10 minutes and 1 hour is much more meaningful than a difference in 200 hours and 250 hours. This tranfromation allows 
 
-Additionally, I thought I would explore how a random forest model
+Nutritional features: `calories`, `total fat`, `sugar`, `sodium`, `protein`, `saturated fat`, `carbohydrates`
+Nutritional content reflects the healthiness and indulgence of a recipe and can dictate a home chef's response to it. For example, higher-calorie, higher-fat recipes tend to be comfort foods or "cheat" dishes and may recieve higher ratings than "health" foods because of their emotional effect along with their taste. Because of this, nutritional profile is a meaningful signal about what kind of recipe is being rated, and therefore how it is likely to be received.
+
+`ingredients_per_step` (n_ingredients / n_steps)
+This captures how "dense" a recipe is. A recipe with 15 ingredients across 5 steps is likely very quick and easy to make, while 15 ingredients across 20 careful steps is a much more involved cook. This may affect a recipes ratings as simpler, lower-effort recipes tend to get rated more generously because more people can pull them off without something going wrong. Including this feature allows the model to account for this. 
+
+`calories_per_ingredient` (calories / n_ingredients)
+This captures how calorie-dense each ingredient is on average, which serves as a proxy for recipe indulgence. A high value suggests the recipe relies heavily on rich ingredients like butter, cream, or chocolate, which are strongly associated with desserts and comfort food — categories that tend to perform well in ratings on this platform.
+
+I continuted with my Decision Tree Classifier model manually tuned the  hyperparameters. The best combination of hyperparameters I found were max_depth = 50, criterion = entropy, and class_weight = balanced. I chose these hyperparameters for the following reasons: max_depth to find the best depth of the tree while avoiding overfitting, criteron to determine the best way to measure the quality of a split, and class_weight to determine how to balance the weights of the classes.
+
+The resulting model returned an F1 score of 0.94 which is a 0.09 increase from the baseline model's score. 
+
+Additionally, the classification report metrics all improved as well
+
+| Class | Precision | Recall | F1-Score | Support |
+|---------|---------:|---------:|---------:|---------:|
+| 0 | 0.84 | 0.82 | 0.83 | 12035 |
+| 1 | 0.94 | 0.94 | 0.94 | 34254 |
+| Accuracy |  |  | 0.91 | 46289 |
+| Macro Avg | 0.89 | 0.88 | 0.89 | 46289 |
+| Weighted Avg | 0.91 | 0.91 | 0.91 | 46289 |
+
+Most importantly, the final model performed well on both classes. For lower-rated recipes (0), the F1-score increased from 0.00 to 0.83, while for highly rated recipes (1), the F1-score improved from 0.85 to 0.94. This indicates that the final model was able to identify both classes effectively rather than favoring the majority class. Overall, the additional features and model tuning produced a more balanced and accurate classifier.
+
+## Fairness Analysis
+
+For the fairness analysis, I split the recipes into two groups: a high number of steps vs a low number of steps. I used the cutoff of 10 steps because it was the average number of steps for all the recipes. I then shuffled the n_steps labels and calculated the difference in precision between the groups, repeating this 1000 times. I chose to evaulate the precision of the model because I believe it is important for the model to be able to correctly identify ratings based on the given information. 
+
+**Null:** The model is fair, its precision for recipes with more and less steps are roughly the same; any differences are due to random chance
+
+**Alternative:** The model is unfair, its precision for recipes with more and less steps is differnt 
+
+**Test statistic:** Absolute difference in precision
+
+**Significance Level:** 0.05
+
+<iframe
+  src="images/fairness.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+The observed statistic was 0.0005 and the resulting p-value was 0.343. This value is greater than the signifcance level therefore we fail to reject the null hypothesis. There is not enough evidence that the model is unfair between recipes with a high number of steps versus a low number of steps. 
