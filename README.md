@@ -1,8 +1,7 @@
-# Investigating what types of recipes tend to have higher average ratings
-
 Author: Lydia Chin
 
 ## Overview
+This project investigates the question of whether recipes that take longer to prepare receive higher ratings from users by analyzing a large collection of recipes and their corresponding ratings. Conducted at UC San Diego, the analysis focuses on the relationship between cooking time and average recipe ratings to determine whether the time invested in a recipe is associated with how positively it is reviewed.
 
 ## Introduction
 Recipes vary widely in their preparation time, nutritional content, and overall popularity. Understanding the factors that contribute to a highly rated recipe can provide valuable insights for home cooks, recipe developers, and food websites. For this project, I am analyzing two datasets consisting of recipes and ratings posted since 2008 on [food.com](https://www.food.com/). This dataset was originally used for the recommender system research paper, [Generating Personalized Recipes from Historical User Preferences](https://cseweb.ucsd.edu/~jmcauley/pdfs/emnlp19c.pdf) by Majumder et al.
