@@ -1,3 +1,5 @@
+## Investigating the effect of a recipe's cooking time on its rating
+
 Author: Lydia Chin
 
 ## Overview
