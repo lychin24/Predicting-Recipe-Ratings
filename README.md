@@ -52,6 +52,7 @@ In order to perform accurate analyses on these datasets, I cleaned them in the f
 
    - This allows me to use both recipe data and their review for analysis.
 
+
 1. Fill all ratings of 0 with np.nan.
 
     - Rating is generally on a scale from 1 to 5, 1 meaning the lowest rating while 5 means the highest rating. With that being said, a rating of 0 indicates missing values in rating. Thus, to avoid bias in the ratings, I filled the value 0 with np.nan.
@@ -94,7 +95,7 @@ In order to perform accurate analyses on these datasets, I cleaned them in the f
 
 
 #### Result
-- The resulting dataframe contains 234208 rows and 18 columns. Here are all of its features:
+- The resulting dataframe contains 234,208 rows and 18 columns. Here are all of its features:
 
     | Column             | Description |
     | :----------------- | :---------- |
